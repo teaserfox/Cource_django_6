@@ -1,0 +1,15 @@
+{% extends 'service/base.html'%}
+
+{% block content %}
+<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+    <h1 class="display-4">Удаление рассылки</h1>
+</div>
+
+<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+    <form method="post">
+        {% csrf_token %}
+        Уверены что хотите удалить рассылку?
+        <button type="submit" class="p-2 btn btn-outline-primary">Удалить рассылку</button>
+    </form>
+</div>
+{% endblock %}

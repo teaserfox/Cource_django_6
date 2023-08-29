@@ -1,0 +1,42 @@
+{% extends 'service/base.html' %}
+
+{% block content %}
+    <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+        <p class="lead">{{ title }}</p>
+    </div>
+    <div class="container">
+        <div class="row text-center">
+            {% for object in object_list %}
+                <div class="col-3">
+                    <div class="card mb-4 box-shadow">
+                        <div class="card-header">
+                            <h4 class="my-0 font-weight-normal">{{ object.date_time }}</h4>
+                        </div>
+                        <div class="card-body">
+                            <ul class="list-unstyled mt-3 mb-4 text-start m-3">
+                                <h6>Клиенты:</h6>
+                                <li>{{ object.client.all | join:", " }}</li>
+                                <h6>Сообщение:</h6>
+                                <li>{{ object.message }}</li>
+                                <h6>Периодичность:</h6>
+                                <li>{{ object.get_periodicity_display }}</li>
+                                <h6>Статус:</h6>
+                                <li>{{ object.get_status_display }}</li>
+                            </ul>
+                            {% if object.owner == user or user.is_superuser %}
+                                <a href="{% url 'service:update' object.pk %}" type="button"
+                                   class="btn btn-lg btn-block btn-outline-primary">Редактировать</a>
+                                <a href="{% url 'service:delete' object.pk %}" type="button"
+                                   class="btn btn-lg btn-block btn-outline-danger">Удалить</a>
+                            {% elif perms.service.can_disable_mailings %}
+                                <a href="{% url 'service:disable' object.pk %}" type="button"
+                                   class="btn btn-lg btn-block btn-outline-danger">Отключить</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+{% endblock %}
